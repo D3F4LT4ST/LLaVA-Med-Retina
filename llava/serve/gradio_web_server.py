@@ -291,7 +291,7 @@ def http_bot(state, model_selector, temperature, max_new_tokens, request: gr.Req
         fout.write(json.dumps(data) + "\n")
 
 title_markdown = ("""
-# 🌋 LLaVA-Med: Large Language and Vision Assistant for Medical Research
+# 🧿 LLaVA-Med-Retina: Large Language and Vision Assistant for Retinal Research
 [[Project Page]](https://llava-vl.github.io) [[Paper]](https://arxiv.org/abs/2304.08485) [[Code]](https://github.com/haotian-liu/LLaVA) [[Model]](https://huggingface.co/liuhaotian/LLaVA-13b-delta-v0)
 """)
 
@@ -347,6 +347,7 @@ def build_demo(embed_mode):
 
                 cur_dir = os.path.dirname(os.path.abspath(__file__))
                 gr.Examples(examples=[
+                    [f"{cur_dir}/examples/color_fundus_image.jpg", "Describe the image"],
                     [f"{cur_dir}/examples/bio_patch.png", "What is this image about?"],
                     [f"{cur_dir}/examples/med_img_1.png", "Can you describe the image in details?"],   
                     [f"{cur_dir}/examples/xy_chromosome.jpg", "Can you describe the image in details?"],   
