@@ -1,24 +1,18 @@
 import openai
 import time
 import asyncio
+import os
 
-# Fill in your OpenAI setup params here
-openai.api_type = "azure"
-openai.api_key = '...'
-openai.api_base = 'https://example-endpoint.openai.azure.com/'
-openai.api_version = "2023-03-15-preview"
-
-DEPLOYMENT_ID="deployment-name"
-
+openai.api_key = os.environ['OPENAI_API_KEY']
 
 async def dispatch_openai_requests(
-  deployment_id,
+  model,
   messages_list,
   temperature,
 ):
     async_responses = [
         openai.ChatCompletion.acreate(
-            deployment_id=deployment_id,
+            model=model,
             messages=x,
             temperature=temperature,
         )
@@ -27,7 +21,7 @@ async def dispatch_openai_requests(
     return await asyncio.gather(*async_responses)
 
 
-def call_async(samples, wrap_gen_message, print_result=False):
+def call_async(samples, wrap_gen_message, model, print_result=False):
   message_list = []
   for sample in samples:
     input_msg = wrap_gen_message(sample)
@@ -36,7 +30,7 @@ def call_async(samples, wrap_gen_message, print_result=False):
   try:
     predictions = asyncio.run(
       dispatch_openai_requests(
-        deployment_id=DEPLOYMENT_ID,
+        model=model,
         messages_list=message_list,
         temperature=0.0,
       )
